@@ -1,8 +1,8 @@
 {
-  "apiKey": "ISI_API_KEY_DARI_FIREBASE",
-  "authDomain": "PROJECT_ID.firebaseapp.com",
-  "projectId": "PROJECT_ID",
-  "storageBucket": "PROJECT_ID.appspot.com",
-  "messagingSenderId": "ISI_MESSAGING_SENDER_ID",
-  "appId": "ISI_APP_ID"
+  "apiKey": "AIzaSyAQUdnoyrxXrGRXRVdK6H2_RCbPDVG66eE",
+  "authDomain": "alyzchat.firebaseapp.com",
+  "projectId": "alyzchat",
+  "storageBucket": "alyzchat.firebasestorage.app",
+  "messagingSenderId": "1078835083696",
+  "appId": "1:1078835083696:web:205f936638ecaaa7fb7e75"
 }
