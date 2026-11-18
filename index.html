@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080914">
+  <title>ALYZ xBUGz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="stars"></div><div class="grid-bg"></div>
+  <main id="app">
+    <section id="fingerPage" class="screen active">
+      <video class="screen-video" src="./media/animasi.mp4" autoplay muted loop playsinline></video>
+      <div class="screen-shade"></div>
+      <div class="finger-wrap">
+        <div class="eyebrow">ALYZ SECURITY SYSTEM</div>
+        <button id="fingerButton" class="finger-button" aria-label="Tekan dan tahan sidik jari">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 13c-22 0-40 18-40 40m80 0c0-22-18-40-40-40M30 58c0-17 13-30 30-30s30 13 30 30c0 18-4 34-12 48M42 59c0-10 8-18 18-18s18 8 18 18c0 21-3 34-9 47M54 61c0-4 3-7 6-7s6 3 6 7c0 16-2 30-5 43M20 66c1 17 4 31 11 43m69-43c-1 8-2 15-4 22" /></svg>
+          <span class="finger-glow"></span>
+        </button>
+        <div class="scan-line"><i id="scanFill"></i></div>
+        <div id="fingerPercent" class="percent">0%</div>
+        <p id="fingerHint" class="muted">Tekan dan tahan untuk memulai</p>
+        <div class="tiny-brand">ALYZ xBUGz <span>•</span> SECURE ACCESS</div>
+      </div>
+    </section>
+
+    <section id="loginPage" class="screen">
+      <video class="screen-video" src="./media/animasi.mp4" autoplay muted loop playsinline></video><div class="screen-shade"></div>
+      <div class="auth-card glass">
+        <div class="avatar-frame"><img id="loginAvatar" src="./media/profile.png" alt="Foto profil"></div>
+        <div class="eyebrow">WELCOME TO</div><h1>ALYZ <span>xBUGz</span></h1>
+        <p class="muted">Masuk untuk melanjutkan ke dashboard.</p>
+        <button class="primary wide" id="goLogin">MASUK</button>
+        <button class="secondary wide" id="buyAccess">BELI AKSES</button>
+        <p class="fine">Akses memerlukan persetujuan administrator.</p>
+      </div>
+    </section>
+
+    <section id="credentialPage" class="screen">
+      <div class="auth-card glass">
+        <button class="back-link" data-back="loginPage">← Kembali</button>
+        <div class="eyebrow">MEMBER AUTHENTICATION</div><h2>Masuk Akun</h2>
+        <label>Username<input id="loginUsername" autocomplete="username" placeholder="Masukkan username"></label>
+        <label>Password<input id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan password"></label>
+        <button id="loginSubmit" class="primary wide">MASUK</button>
+        <p class="fine">Akun dibuat saat pengajuan akses pertama kali. Gunakan username dan password yang sama.</p>
+      </div>
+    </section>
+
+    <section id="purchasePage" class="screen">
+      <div class="auth-card glass scroll-card">
+        <button class="back-link" data-back="loginPage">← Kembali</button>
+        <div class="eyebrow">ACCESS STORE</div><h2>Pilih Akses</h2>
+        <div class="role-options">
+          <button class="role-option selected" data-role="FULL UP" data-price="30000"><b>FULL UP</b><strong>Rp30.000</strong><small>Akses Full Up</small></button>
+          <button class="role-option" data-role="RESSELER" data-price="50000"><b>RESSELER</b><strong>Rp50.000</strong><small>Akses Reseller</small></button>
+          <button class="role-option" data-role="OWNER" data-price="150000"><b>OWNER</b><strong>Rp150.000</strong><small>Akses Owner</small></button>
+        </div>
+        <div class="price-line"><span>Dipilih</span><b id="chosenRole">FULL UP · Rp30.000</b></div>
+        <label>Username<input id="newUsername" autocomplete="username" placeholder="Buat username (3–24 karakter)"></label>
+        <label>Password<input id="newPassword" type="password" autocomplete="new-password" placeholder="Buat password (min. 8 karakter)"></label>
+        <label>Ulangi Password<input id="repeatPassword" type="password" placeholder="Ulangi password"></label>
+        <button id="purchaseSubmit" class="primary wide">KIRIM PENGAJUAN</button>
+        <p class="fine">Pengajuan dikirim ke admin untuk diperiksa. Pembayaran dilakukan melalui admin; jangan mengirim data rahasia pembayaran di chat.</p>
+      </div>
+    </section>
+
+    <section id="pendingPage" class="screen">
+      <div class="auth-card glass">
+        <div class="status-orb"></div><div class="eyebrow">ACCOUNT STATUS</div><h2 id="pendingTitle">AKUN BELUM AKTIF</h2>
+        <p id="pendingMessage" class="muted">Silakan tunggu persetujuan administrator.</p>
+        <button id="chatAdminFromPending" class="primary wide">CHAT ADMIN</button>
+        <button id="pendingBack" class="secondary wide">KEMBALI</button>
+      </div>
+    </section>
+
+    <section id="chatPage" class="screen app-screen">
+      <header class="chat-header glass">
+        <button class="icon-button" id="chatBack" aria-label="Kembali">←</button>
+        <div class="chat-avatar">A</div><div class="chat-head-copy"><b id="chatTitle">ADMIN ALYZ</b><small id="chatStatus">Menghubungkan…</small></div>
+      </header>
+      <div id="chatMessages" class="chat-messages"></div>
+      <form id="chatForm" class="chat-compose glass">
+        <label class="attach-button" for="chatFile" aria-label="Tambah media">＋</label><input id="chatFile" type="file" accept="image/*" hidden>
+        <input id="chatInput" placeholder="Tulis pesan…" autocomplete="off">
+        <button class="send-button" type="submit" aria-label="Kirim">➤</button>
+      </form>
+    </section>
+
+    <section id="mainPage" class="screen app-screen">
+      <header class="topbar glass">
+        <button id="menuToggle" class="icon-button" aria-label="Buka menu">☰</button>
+        <div class="top-title">ALYZ <span>xBUGz</span></div>
+        <button id="topMore" class="icon-button" aria-label="Menu lainnya">⋯</button>
+      </header>
+      <aside id="sideMenu" class="side-menu glass">
+        <div class="side-heading">ALYZ SETTING</div>
+        <button data-action="link">AMBIL LINK SL <span>↗</span></button>
+        <button data-action="upgrade">UP ROLE <span>＋</span></button>
+        <button data-action="contact">KONTAK ADMIN <span>↗</span></button>
+        <button data-action="sender">SENDER <span>⌁</span></button>
+        <button data-action="ai">AI ALYZ <span>✦</span></button>
+        <button data-action="orders" id="adminOrderMenu" class="hidden">ORDER <span>▤</span></button>
+      </aside>
+      <div id="moreMenu" class="more-menu glass hidden"><button id="openProfileQuick">Profil</button><button id="logoutQuick">Logout</button></div>
+      <div class="main-scroll" id="homeView">
+        <div class="hero-video glass">
+          <video src="./media/alyz.mp4" autoplay muted loop playsinline></video>
+          <div class="video-caption"><span>ALYZ V1 VPS</span><small>CONTROL CENTER</small></div>
+        </div>
+        <section class="stats-panel glass">
+          <div class="stats-title">ALYZ IS COOMING</div>
+          <div class="stats-grid">
+            <div><small>USER</small><b id="userCount">—</b></div>
+            <div><small>ONLINE</small><b id="onlineCount">—</b></div>
+            <div><small>SENDER TOTAL</small><b id="senderCount">0</b></div>
+          </div>
+          <div class="copyright">©Alyz Dev 2026 - Try Again</div>
+        </section>
+        <section class="demo-panel">
+          <div class="section-kicker">CONTROL MODULE</div><h2>ALYZ BUG</h2>
+          <div class="demo-animation glass"><div class="radar"><i></i><i></i><i></i><b>DEMO</b></div><span>SAFE SIMULATION MODE</span></div>
+          <label>Nomor simulasi<input id="demoNumber" inputmode="tel" placeholder="Contoh: 08xxxxxxxxxx"></label>
+          <div class="bug-choice glass"><div><b>PRANK BUG</b><small>Animasi demo lokal — tidak menghubungi nomor</small></div><span class="online-dot"></span></div>
+          <button id="demoSend" class="primary wide">KIRIM DEMO</button>
+          <p class="fine">Fitur ini hanya menampilkan simulasi pada perangkat ini. Tidak mengirim pesan, gangguan, atau permintaan ke WhatsApp.</p>
+        </section>
+      </div>
+
+      <section id="senderView" class="sub-view hidden">
+        <div class="view-heading"><div><small>DEVICE MANAGEMENT</small><h2>Sender</h2></div><button id="addSender" class="primary">＋ Tambah</button></div>
+        <div id="senderList" class="sender-list"></div>
+        <div class="fine">Pairing code dan status di halaman ini adalah simulasi lokal, bukan koneksi WhatsApp.</div>
+      </section>
+      <section id="profileView" class="sub-view hidden">
+        <div class="view-heading"><div><small>ACCOUNT</small><h2>Profil</h2></div></div>
+        <div class="profile-card glass">
+          <label class="profile-photo" for="profileFile"><img id="profileImage" src="./media/profile.png" alt="Foto profil"><span>Ganti foto</span></label><input id="profileFile" type="file" accept="image/*" hidden>
+          <h2><span id="profileName">Alyz</span> <span id="profileBadge"></span></h2>
+          <div class="role-pill" id="profileRole">MEMBER</div>
+          <label>Password<div class="password-row"><input id="profilePassword" type="password" readonly><button id="togglePassword" class="secondary">Lihat</button></div></label>
+          <button id="logoutButton" class="danger wide">LOGOUT</button>
+        </div>
+      </section>
+      <section id="ordersView" class="sub-view hidden">
+        <div class="view-heading"><div><small>ADMIN CONSOLE</small><h2>Order</h2></div></div>
+        <div class="tab-row"><button class="tab active" data-tab="approvals">ACC ORDER</button><button class="tab" data-tab="buyers">CHAT USER</button></div>
+        <div id="approvalList"></div><div id="buyerList" class="hidden"></div>
+      </section>
+      <nav class="bottom-nav">
+        <button class="nav-item active" data-view="home"><span class="nav-icon">⌂</span><small>Home</small></button>
+        <button class="nav-item" data-view="sender"><span class="nav-icon">⌁</span><small>Sender</small></button>
+        <button class="nav-item" data-view="profile"><span class="nav-icon">◉</span><small>Profil</small></button>
+      </nav>
+      <div id="aiOrb" class="ai-orb" title="AI ALYZ">✦</div>
+      <div id="aiPanel" class="ai-panel glass hidden">
+        <div class="ai-head"><b>AI ALYZ</b><button id="closeAI" class="icon-button">×</button></div>
+        <div id="aiLog" class="ai-log">Asisten navigasi ALYZ. Coba ketik: buka home, buka sender, buka profil.</div>
+        <form id="aiForm" class="ai-compose"><input id="aiInput" placeholder="Perintah navigasi…"><button class="primary">➤</button></form>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden"><div class="modal-card glass"><button id="modalClose" class="modal-close">×</button><div id="modalContent"></div></div></div>
+  <div id="toast" class="toast"></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

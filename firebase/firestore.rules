@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    function isSelf(uid) { return signedIn() && request.auth.uid == uid; }
+
+    match /admins/{uid} {
+      allow read: if isSelf(uid) || isAdmin();
+      // Buat dokumen admin pertama secara manual dari Firebase Console.
+      allow write: if false;
+    }
+
+    match /users/{uid} {
+      allow create: if isSelf(uid)
+        && request.resource.data.keys().hasOnly(['username','role','status','createdAt','displayName','photoURL'])
+        && request.resource.data.role == 'PENDING'
+        && request.resource.data.status == 'pending';
+      allow read: if isSelf(uid) || isAdmin();
+      allow update: if isAdmin()
+        || (isSelf(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName','photoURL','lastSeen']));
+      allow delete: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.keys().hasOnly(['uid','username','requestedRole','price','status','createdAt']);
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','reviewedAt','reviewedBy','approvedRole']);
+      allow delete: if isAdmin();
+    }
+
+    match /chats/{chatId} {
+      function isChatMember() {
+        return signedIn() && (
+          chatId == request.auth.uid || isAdmin()
+        );
+      }
+      allow read: if isChatMember();
+      allow create: if isChatMember()
+        && request.resource.data.uid == chatId
+        && request.resource.data.senderUid == request.auth.uid;
+      allow update, delete: if isChatMember();
+      match /messages/{messageId} {
+        allow read: if isChatMember();
+        allow create: if isChatMember()
+          && request.resource.data.senderUid == request.auth.uid
+          && request.resource.data.keys().hasOnly(['senderUid','senderRole','text','imageUrl','createdAt','deleted']);
+        allow update: if isChatMember()
+          && (isAdmin() || resource.data.senderUid == request.auth.uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['deleted','text']);
+        allow delete: if isAdmin() || (signedIn() && resource.data.senderUid == request.auth.uid);
+      }
+    }
+
+    match /presence/{uid} {
+      allow read: if signedIn();
+      allow create, update: if isSelf(uid)
+        && request.resource.data.keys().hasOnly(['online','lastSeen']);
+      allow delete: if isSelf(uid) || isAdmin();
+    }
+
+    match /senders/{senderId} {
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.mode == 'simulation';
+      allow update, delete: if signedIn()
+        && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+  }
+}

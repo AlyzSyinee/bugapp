@@ -1,0 +1,8 @@
+{
+  "apiKey": "ISI_API_KEY_DARI_FIREBASE",
+  "authDomain": "PROJECT_ID.firebaseapp.com",
+  "projectId": "PROJECT_ID",
+  "storageBucket": "PROJECT_ID.appspot.com",
+  "messagingSenderId": "ISI_MESSAGING_SENDER_ID",
+  "appId": "ISI_APP_ID"
+}
